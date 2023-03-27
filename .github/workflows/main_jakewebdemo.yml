@@ -34,9 +34,11 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-      - name: dotnet tool install -g dotnet-ef
-      - name: dotnet ef migrations bundle -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate
-
+      - name: install dotnet tool
+        uses: dotnet tool install -g dotnet-ef
+      - name: dotnet migrate
+        uses: dotnet ef migrations bundle -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate
+       
   deploy:
     runs-on: ubuntu-latest
     needs: build
